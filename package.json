@@ -1,0 +1,47 @@
+{
+  "name": "com.imady.nebuui",
+  "displayName": "imady.NebuUI",
+  "version": "0.1.3",
+  "unity": "2019.4",
+  "description": "MVVM UI framework.",
+  "repository": {
+    "url": "https://github.com/imadyTech/UnityUI.git",
+    "type": "git",
+    "revision": "370080478647882de41c08e5ca4b4ec26032d9c7"
+  },
+  "author": {
+    "name": "Frank Shen",
+    "email": "fs@imady.com",
+    "url": "http://www.imady.com"
+  },
+  "upm": {
+    "changelog": "# Initial upload."
+  },
+  "upmCi": {
+    "footprint": "cc95e1e15b1229b3515e1931a18d0976d783d34e"
+  },
+  "type": "template",
+  "samples": [
+    {
+      "displayName": "Sample Scene",
+      "description": "Contains sample scene of a Nebulog server app.",
+      "path": "Samples/Scenes"
+    },
+    {
+      "displayName": "Resources",
+      "description": "Contains sample resources necessary to run the app.",
+      "path": "Samples/Resources"
+    },
+    {
+      "displayName": "Managers",
+      "description": "Contains sample manager scripts necessary to run the app.",
+      "path": "Samples/Managers"
+    },
+    {
+      "displayName": "APP",
+      "description": "Contains top level app scripts.",
+      "path": "Samples/App"
+    }
+  ],
+  "hideInEditor": false
+}
