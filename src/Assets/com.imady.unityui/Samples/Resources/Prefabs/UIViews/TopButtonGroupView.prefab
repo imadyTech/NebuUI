@@ -798,7 +798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltip: {fileID: 1665534607095919096}
-  content: "\u5207\u6362\u4E8C\u7EF4/\u4E09\u7EF4\u5730\u7403"
+  content: "\u5207\u6362\u4E8C\u7EF4/\u4E09\u7EF4"
 --- !u!114 &5342929018100146291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1399,7 +1399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltip: {fileID: 3738864632169766779}
-  content: ????
+  content: Up
 --- !u!114 &4583873471475505540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1804,7 +1804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltip: {fileID: 905058375900052756}
-  content: Next
+  content: Play
 --- !u!114 &7331550769791994131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3362,7 +3362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltip: {fileID: 8904517437457096399}
-  content: ????
+  content: Down
 --- !u!114 &3009103691520169887
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.1": {},
     ".NETStandard,Version=v2.1/": {
-      "imady.Nebulog.Loggers/1.0.0": {
+      "imady.Nebulog.Loggers/0.2.1-preview": {
         "dependencies": {
           "imady.NebuLog.DataModel": "1.0.0",
           "Microsoft.AspNetCore.SignalR.Client": "6.0.9",
@@ -450,7 +450,7 @@
     }
   },
   "libraries": {
-    "imady.Nebulog.Loggers/1.0.0": {
+    "imady.Nebulog.Loggers/0.2.1-preview": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

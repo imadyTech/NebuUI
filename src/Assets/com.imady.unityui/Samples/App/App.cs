@@ -30,7 +30,7 @@ namespace imady.NebuUI.Samples
         #endregion
 
         #region MonoBehaviour Methods
-        protected override async void Awake()
+        protected override void Awake()
         {
             base.Awake();
 

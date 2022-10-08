@@ -4,7 +4,11 @@ using imady.NebuEvent;
 namespace imady.NebuUI.Samples
 {
     [NbuResourcePath("UIViews/")]
-    public class MainCanvasView : NbuUIViewBase
+    public class MainCanvasView : NbuUIViewBase,
+        INebuObserver<NebuUnityUIMessage<Mdy2DViewMsg>>, INebuObserver<NebuUnityUIMessage<Mdy3DViewMsg>>,
+        INebuObserver<NebuUnityUIMessage<NebuUnityButtonInput>>,
+        INebuObserver<NebuUnityUIMessage<NebulogServerConnectedMsg>>
+
     {
         /// <summary>
         /// 指向MainSystemLogPanel系统消息面板
@@ -18,7 +22,6 @@ namespace imady.NebuUI.Samples
         public MainCanvasView Init(NebuEventManager eventmanager)
         {
             mainSystemLogPanel.AddEventManager(eventmanager);
-
             mainSystemLogPanel.Init();
             return this;
         }
@@ -39,5 +42,24 @@ namespace imady.NebuUI.Samples
 
         }
 
+        public void OnNext(NebuUnityUIMessage<Mdy2DViewMsg> message)
+        {
+            AddSystemLog("2D", this.name);
+        }
+
+        public void OnNext(NebuUnityUIMessage<Mdy3DViewMsg> message)
+        {
+            AddSystemLog("3D", this.name);
+        }
+
+        public void OnNext(NebuUnityUIMessage<NebuUnityButtonInput> message)
+        {
+            AddSystemLog(message.messageBody.msg, this.name);
+        }
+
+        public void OnNext(NebuUnityUIMessage<NebulogServerConnectedMsg> message)
+        {
+            AddSystemLog(message.messageBody.msg, this.name);
+        }
     }
 }

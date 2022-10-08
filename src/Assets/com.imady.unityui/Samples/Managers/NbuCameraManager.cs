@@ -63,7 +63,7 @@ namespace imady.NebuUI.Samples
             if (m_earthDisplayMode == "3D" && ((message.messageBody.xDragDeltaRatio + message.messageBody.yDragDeltaRatio) != 0 || message.messageBody.scrollRatio != 0))
             {
 
-                //处理Drag：相机绕着地球跑
+                //处理Drag：相机绕着跑
                 RotateCameraAroundCenter(message.messageBody.xDragDeltaRatio, message.messageBody.yDragDeltaRatio);
                 //处理Scroll
                 m_currentCameraFOV3D = Mathf.Clamp(

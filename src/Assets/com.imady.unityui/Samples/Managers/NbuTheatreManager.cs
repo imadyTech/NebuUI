@@ -29,7 +29,7 @@ namespace imady.NebuUI.Samples
 
             #region 场景中的对象在初始化时期加入EventSystem
             //m_earth2d.AddEventManager(eventmanager);
-            App.Instance.uiManager.mainView.AddSystemLog("地球对象加载完成！", this.name);
+            App.Instance.uiManager.mainView.AddSystemLog("对象加载完成！", this.name);
 
             #endregion
 
@@ -39,17 +39,11 @@ namespace imady.NebuUI.Samples
         {
             if (objectPool == null)
             {
-                Debug.LogException(new Exception("MadYObjectPool视窗池子还没完成初始化。"));
+                Debug.LogException(new Exception("NebuObjectPool视窗池子还没完成初始化。"));
                 return this;
             }
 
-            //2D 高精度地球
-            //if (App.Instance.Earth2DObject != null)
-            //    m_earth2d = ((Earth2D)App.Instance.Earth2DObject
-            //        .GetComponent<Earth2D>()
-            //        .SetManager(this))
-            //        .AddCityMap();
-            App.Instance.uiManager.mainView.AddSystemLog("地球对象初始化完成！", this.name);
+            App.Instance.uiManager.mainView.AddSystemLog("对象初始化完成！", this.name);
             return this;
         }
 
