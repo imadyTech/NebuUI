@@ -117,6 +117,8 @@ namespace imady.NebuUI.Samples
             this.AfterNebuManagersInitialized(this, new EventArgs());
             Debug.Log("[Nebu应用管理器]: 应用程序加载完成！");
             uiManager.mainView.AddSystemLog("应用程序启动完成。", this.name);
+
+            uiManager.ShowMessageBox("App Initiated", "App has been initiated successfully.");
         }
 
 
