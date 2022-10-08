@@ -1,13 +1,12 @@
 {
   "name": "com.imady.nebuui",
   "displayName": "imady.NebuUI",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "unity": "2019.4",
   "description": "MVVM UI framework.",
   "repository": {
     "url": "https://github.com/imadyTech/UnityUI.git",
-    "type": "git",
-    "revision": "370080478647882de41c08e5ca4b4ec26032d9c7"
+    "type": "git"
   },
   "author": {
     "name": "Frank Shen",
