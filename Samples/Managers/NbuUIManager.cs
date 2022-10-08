@@ -10,8 +10,6 @@ namespace imady.NebuUI.Samples
     public class NbuUIManager : NebuEventUnityObjectBase,
         INebuProvider<NebuUnityUIMessage<NebuUnityButtonInput>>,
         INebuProvider<NebuUnityUIMessage<MouseDragMsg>>,
-        INebuProvider<NebuUnityUIMessage<Mdy2DViewMsg>>, INebuProvider<NebuUnityUIMessage<Mdy3DViewMsg>>,
-        INebuProvider<NebuUnityUIMessage<NebulogServerInitiateMsg>>,
         IBeginDragHandler, IDragHandler, IEndDragHandler, IScrollHandler//鼠标拖拽、滚动
     {
         private NbuUIViewPool viewPool;
@@ -59,9 +57,11 @@ namespace imady.NebuUI.Samples
                 Debug.LogException(new Exception("MdyViewPool视窗池子还没完成初始化。"));
                 return this;
             }
-            topButtonGroupView = GetComponentInChildren<TopButtonGroupView>();
+            topButtonGroupView = GetComponentInChildren<TopButtonGroupView>()
+                .AddEventManager(eventmanager) as TopButtonGroupView;
             mainView = GetComponentInChildren<MainCanvasView>()
-                .Init(eventmanager);
+                .Init(eventmanager)
+                .AddEventManager(eventmanager) as MainCanvasView;
             mainView.SetParent(mainCanvasContainer.transform);
 
             ShowMessageBox(
@@ -113,8 +113,6 @@ namespace imady.NebuUI.Samples
         Vector3 m_PrevPos = Vector3.zero;//缓存前一段时间偏离屏幕中心点的位置
         Vector3 m_PosDelta = Vector3.zero;//delta
         Vector3 m_PosCenter = Vector3.zero;//delta
-        int m_PrevScroll = 1;
-        int m_deltaScroll = 0;
 
         public void OnBeginDrag(PointerEventData eventData)
         {
@@ -161,66 +159,6 @@ namespace imady.NebuUI.Samples
         }
         #endregion
 
-
-        #region 开放给子层级UIView的消息总线调用接口（封装下层接口）
-        /// <summary>
-        /// general interface of unity virtual button events
-        /// 通用的unity虚拟Button对象处理
-        /// </summary>
-        /// <param name="buttonName"></param>
-        public void On_UnityButton_Clicked(NebuUnityUIMessage<NebuUnityButtonInput> message)
-        {
-            //Debug.Log($"some certain unity Button is clicked : {message.messageBody.Content}");
-            base.NotifyObservers(message);
-        }
-        public void On_Keyboard_Action(NebuUnityUIMessage<NebuKeyboardInput> message)
-        {
-            base.NotifyObservers(message);
-        }
-        public void On_Mouse_Action(NebuUnityUIMessage<NebuMouseInput> message)
-        {
-            base.NotifyObservers(message);
-        }
-        #endregion
-
-
-
-        /// <summary>
-        /// MainUI下一级的UI -> 返回MainUI
-        /// </summary>
-        public MainCanvasView OnToggle_MainCanvas_Button_Clicked()
-        {
-            Debug.Log("OnToggle_MainCanvas_Button_Clicked");
-            //viewPool.ClearPrevious();
-            mainView = WakeView(typeof(MainCanvasView), mainCanvasContainer, false)
-                as MainCanvasView;
-            return mainView;
-        }
-
-        /// <summary>
-        /// MainCanvas --> Setting View
-        /// </summary>
-        public SettingView OnToggle_SettingView_Button_Clicked()
-        {
-            //Debug.Log("PerformReviewEndButton/ReturnToMainButton_Clicked");
-            //viewPool.ClearPrevious();
-
-            var view = (WakeView(typeof(SettingView), mainCanvasContainer, false)
-                as SettingView);
-            return view;
-        }
-
-        /// <summary>
-        /// 顶部菜单条
-        /// </summary>
-        /// <returns></returns>
-        public TopButtonGroupView WakeTopButtonGroupView()
-        {
-            var view = WakeView(typeof(TopButtonGroupView), this.gameObject, false)
-                as TopButtonGroupView;
-            //view.Show();
-            return view;
-        }
 
 
 

@@ -15,7 +15,8 @@ namespace imady.NebuUI.Samples
 {
     public class NebulogManager : NebuEventUnityObjectBase,
         INebuObserver<NebuUnityUIMessage<NebulogServerInitiateMsg>>,
-        INebuProvider<NebuLogMsg>
+        INebuProvider<NebuLogMsg>,
+        INebuProvider<NebuUnityUIMessage<NebulogServerConnectedMsg>>
     {
         public static INebuLogger logger;
 
@@ -37,107 +38,6 @@ namespace imady.NebuUI.Samples
 
 
         #region 响应来自NebuLogHub的事件，进行前端视图的处理
-        [Obsolete]
-        public void OnLoggingMessageReceived(object sender, NebuLogMsg request)
-        {
-            if (request == null) return;
-
-            //try
-            //{
-            //    messageList.Add(request);
-
-            //    this.Dispatcher.Invoke(() =>
-            //    {
-            //        MessageData.Items.Add(request);
-            //        MessageData.ScrollIntoView(request);//注意：AutoScroll会导致客户端渲染速度大幅下降
-            //        _messageCount++;
-            //        TestMessageBox.Text = $"Total received {_messageCount} messages.";
-
-            //    }
-            //    //MessageData.Add(new DataGridTextColumn {  })
-            //    );
-            //}
-            //catch (Exception ex)
-            //{
-            //    messageList.Add(new NebuLogMessageRequest()
-            //    {
-            //        LogLevel = "Server",
-            //        LoggingMessage = ex.Message,
-            //        ProjectName = Application.Current.MainWindow.Name,
-            //        SenderName = Assembly.GetExecutingAssembly().GetName().Name,
-            //        TimeOfLog = DateTime.Now
-            //    });
-            //    //this.Dispatcher.Invoke(()=> TestMessageBox.Text = ex.Message);
-            //}
-        }
-        [Obsolete]
-        public void OnAddStatRequestReceived(object sender, NebuLogStatMsg request)
-        {
-            if (request == null) return;
-            //try
-            //{
-            //    statList.Add(request);
-
-            //    this.Dispatcher.Invoke(() =>
-            //    {
-            //        StatDataGrid.Items.Add(request);
-            //        //StatDataGrid.ScrollIntoView(log);//注意：AutoScroll会导致客户端渲染速度大幅下降
-            //        _messageCount++;
-            //        TestMessageBox.Text = $"Total received {_messageCount} messages.";
-
-            //    }
-            //    //MessageData.Add(new DataGridTextColumn {  })
-            //    );
-            //}
-            //catch (Exception ex)
-            //{
-            //    messageList.Add(new NebuLogMessageRequest()
-            //    {
-            //        LogLevel = "Server",
-            //        LoggingMessage = ex.Message,
-            //        ProjectName = Application.Current.MainWindow.Name,
-            //        SenderName = Assembly.GetExecutingAssembly().GetName().Name,
-            //        TimeOfLog = DateTime.Now
-            //    });
-            //    //this.Dispatcher.Invoke(()=> TestMessageBox.Text = ex.Message);
-            //}
-
-        }
-        [Obsolete]
-        public void OnRefreshStatRequestRecieved(object sender, NebuLogRefreshStatMsg request)
-        {
-            if (request == null) return;
-            //try
-            //{
-            //    var item = statList.Find(stat => stat.StatId.Equals(request.StatId));
-
-            //    this.Dispatcher.Invoke(() =>
-            //    {
-            //        item.StatValue = request.StatValue;
-            //        StatDataGrid.Items.Refresh();
-            //        _messageCount++;
-            //        TestMessageBox.Text = $"Total received {_messageCount} messages.";
-
-            //    }
-            //    //MessageData.Add(new DataGridTextColumn {  })
-            //    );
-            //}
-            //catch (Exception ex)
-            //{
-            //    messageList.Add(new NebuLogMessageRequest()
-            //    {
-            //        LogLevel = "Server",
-            //        LoggingMessage = ex.Message,
-            //        ProjectName = Application.Current.MainWindow.Name,
-            //        SenderName = Assembly.GetExecutingAssembly().GetName().Name,
-            //        TimeOfLog = DateTime.Now
-            //    });
-            //    //this.Dispatcher.Invoke(()=> TestMessageBox.Text = ex.Message);
-            //}
-
-        }
-
-
         int tempNebulogMsgLocker = 0;
         ConcurrentQueue<NebuLogMsg> messagesCache = new ConcurrentQueue<NebuLogMsg>();
         public void ReceiveOnILogging(DateTime time, string projectname, string sourcename, string loglevel, string message)
@@ -179,9 +79,9 @@ namespace imady.NebuUI.Samples
 
 
         #region imady.NebuyEvent System INTERFACE IMPLEMENTATION
-        public async void OnNext(NebuUnityUIMessage<NebulogServerInitiateMsg> message)
+        public void OnNext(NebuUnityUIMessage<NebulogServerInitiateMsg> message)
         {
-            System.Diagnostics.Process.Start(Application.streamingAssetsPath + "\\" + AppConfiguration.multiSateProductName);
+            //System.Diagnostics.Process.Start(Application.streamingAssetsPath + "\\" + AppConfiguration.multiSateProductName);
 
             #region 加载 Nebulogger
             var option = new NebuLogOption()
@@ -191,16 +91,16 @@ namespace imady.NebuUI.Samples
                 LogLevel = LogLevel.Trace
             };
 
-            await InitializeNebulogger(option);
-
-            #endregion
-        }
-        #endregion
-
-        //必须先完成SignalR的连接，否则会出现死锁
-        private async Task InitializeNebulogger(NebuLogOption option)
-        {
             logger = new imady.NebuLog.Loggers.NebuLogger(option, SceneManager.GetActiveScene().name);
+            //logger.NebulogHubConnection.On<DateTime, string, string, string, string>("OnILogging", this.ReceiveOnILogging);
+            logger.NebulogConnected += ((o,e) => { 
+                Debug.Log("NebuLogger Connected.");
+                base.NotifyObservers(new NebuUnityUIMessage<NebulogServerConnectedMsg>()
+                {
+                    messageBody = new NebulogServerConnectedMsg()
+                });
+            });
+
 
             // 注册Debug.Log响应委托
 #if UNITY_4
@@ -209,12 +109,8 @@ namespace imady.NebuUI.Samples
             Application.logMessageReceived += logger.HandleUnityLogs;
 #endif
 
-
-            //logger.NebulogConnected += (async (o, e) =>
-            //{
-            //    await InitializeTuiBookManager(null, null);
-            //    Debug.Log("Nebulogger initialized.");
-            //});
+            #endregion
         }
+        #endregion
     }
 }

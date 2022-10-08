@@ -8,7 +8,11 @@ using imady.NebuEvent;
 namespace imady.NebuUI.Samples
 {
     [NbuResourcePath("UIViews/")]
-    public class TopButtonGroupView : NbuUIViewBase
+    public class TopButtonGroupView : NbuUIViewBase,
+        INebuProvider<NebuUnityUIMessage<NebulogServerInitiateMsg>>,
+        INebuProvider<NebuUnityUIMessage<Mdy2DViewMsg>>, INebuProvider<NebuUnityUIMessage<Mdy3DViewMsg>>,
+        INebuProvider<NebuUnityUIMessage<NebuUnityButtonInput>>
+
     {
         public new void Awake()
         {
@@ -42,7 +46,8 @@ namespace imady.NebuUI.Samples
         /// </summary>
         protected override void BindButtonActions()
         {
-            Toggle_Start_Button.onClick.AddListener(() => {
+            Toggle_Start_Button.onClick.AddListener(() =>
+            {
                 base.NotifyObservers(new NebuUnityUIMessage<NebulogServerInitiateMsg>());
             });
 
@@ -51,7 +56,7 @@ namespace imady.NebuUI.Samples
             Toggle_Play_Button.onClick.AddListener(this.OnToggle_Play_Clicked);//播放
             Toggle_Pause_Button.onClick.AddListener(this.OnToggle_Pause_Clicked);//暂停
             Toggle_SpeedUp_Button.onClick.AddListener(this.OnToggle_SpeedUp_Clicked);//加速
-
+            Toggle_3D2D_Button.onClick.AddListener(this.OnToggle_3D_2D_Button_Clicked);
             //----------Setting Button Group 设置---------//
             Toggle_Setting_Button.onClick.AddListener(this.OnToggle_Setting_Button_Clicked);
         }
@@ -60,22 +65,22 @@ namespace imady.NebuUI.Samples
         #region ----------///3D_2D///---------
         public void OnToggle_3D_2D_Button_Clicked()
         {
-            Debug.Log("OnToggle_3D_2D_Button_Clicked: " + displayMode);
             switch (displayMode)
             {
                 case "3D":
                     {
-                        displayMode = "2D"; 
+                        displayMode = "2D";
                         NotifyObservers(new NebuUnityUIMessage<Mdy2DViewMsg>());
                         break;
                     }
                 case "2D":
                     {
-                        displayMode = "3D"; 
+                        displayMode = "3D";
                         NotifyObservers(new NebuUnityUIMessage<Mdy3DViewMsg>());
                         break;
                     }
             }
+            Debug.Log("OnToggle_3D_2D_Button_Clicked: " + displayMode);
         }
 
         #endregion
@@ -86,22 +91,26 @@ namespace imady.NebuUI.Samples
 
         private void OnToggle_SpeedUp_Clicked()
         {
+
             var message = new NebuUnityUIMessage<NebuUnityButtonInput>()
             {
                 timeSend = DateTime.Now,
                 messageBody = new NebuUnityButtonInput() { msg = "UIButton_SpeedUp", actionItem = promptLabel }
             };
             base.NotifyObservers(message);
+            Debug.Log("OnToggle_SpeedUp_Clicked");
         }
 
         private void OnToggle_Pause_Clicked()
         {
+
             var message = new NebuUnityUIMessage<NebuUnityButtonInput>()
             {
                 timeSend = DateTime.Now,
                 messageBody = new NebuUnityButtonInput() { msg = "UIButton_Pause", actionItem = promptLabel }
             };
             base.NotifyObservers(message);
+            Debug.Log("OnToggle_Pause_Clicked");
         }
 
         private void OnToggle_Play_Clicked()
@@ -112,6 +121,7 @@ namespace imady.NebuUI.Samples
                 messageBody = new NebuUnityButtonInput() { msg = "UIButton_Play", actionItem = promptLabel }
             };
             base.NotifyObservers(message);
+            Debug.Log("OnToggle_Play_Clicked");
         }
 
         private void OnToggle_SpeedDown_Clicked()
@@ -122,6 +132,7 @@ namespace imady.NebuUI.Samples
                 messageBody = new NebuUnityButtonInput() { msg = "UIButton_SpeedDown", actionItem = promptLabel }
             };
             base.NotifyObservers(message);
+            Debug.Log("OnToggle_SpeedDown_Clicked");
         }
         #endregion
 
@@ -138,6 +149,7 @@ namespace imady.NebuUI.Samples
                 messageBody = new NebuUnityButtonInput() { msg = "UIButton_Settings", actionItem = promptLabel }
             };
             base.NotifyObservers(message);
+            Debug.Log("OnToggle_Setting_Button_Clicked");
         }
         #endregion
     }

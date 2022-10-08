@@ -6,6 +6,10 @@ namespace imady.NebuUI
     {
         public NebulogServerInitiateMsg() { msg = "InitNebulogServerMsg"; }
     }
+    public class NebulogServerConnectedMsg : NebuUnityButtonInput, INebuInput
+    {
+        public NebulogServerConnectedMsg() { msg = "NebulogServerConnectedMsg"; }
+    }
     public class NebulogServerShutdownMsg : NebuUnityButtonInput, INebuInput
     {
         public NebulogServerShutdownMsg() { msg = "ShutdownNebulogServerMsg"; }
