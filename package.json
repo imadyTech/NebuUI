@@ -1,9 +1,9 @@
 {
   "name": "com.imady.nebuui",
   "displayName": "imady.NebuUI",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "unity": "2019.4",
-  "description": "MVVM UI framework.",
+  "description": "A light ViewModel driven UI framework.",
   "repository": {
     "url": "https://github.com/imadyTech/UnityUI.git",
     "type": "git"
